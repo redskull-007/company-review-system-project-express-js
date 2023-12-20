@@ -1,64 +1,118 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Company Review Form</title>
-  <link rel="stylesheet" href="/static/styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Company Review System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f2f2f2;
+        }
+
+        .company-review {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        textarea,
+        input[type="text"],
+        input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+        }
+
+        .star-rating {
+            display: inline-block;
+            font-size: 25px;
+            unicode-bidi: bidi-override;
+            color: #ffd700;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+
+        .star-rating > span {
+        display: inline-block;
+        position: relative;
+        width: 1.1em;
+        color: lightgray; /* Set your desired initial color */
+    }
+        
+
+        .star-rating:before {
+            content: "\2605";
+            position: absolute;
+            opacity: 0;
+        }
+
+        .star-rating:hover:before,
+        .star-rating:hover ~ span:before {
+            opacity: 1;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
-  <form>
-    <div>
-      <label for="companyName">Company Name:</label>
-      <input type="text" id="companyName" name="companyName" required>
+    <div class="company-review">
+        <h1>Company Review System</h1>
+        
+        <!-- Review Form -->
+        <div class="company-form">
+            <h2>Add a Review</h2>
+            <form id="reviewForm">
+                <label for="companyName">Company Name:</label>
+                <input type="text" id="companyName" name="companyName" required>
+
+                <label for="pros">Pros:</label>
+                <textarea id="pros" name="pros" required></textarea>
+
+                <label for="cons">Cons:</label>
+                <textarea id="cons" name="cons" required></textarea>
+
+                <label for="rating">Rating:</label>
+                <div class="star-rating" id="ratingStars">
+                    <span>☆</span><span>☆</span><span>☆</span><span>☆</span><span>☆</span>
+                </div>
+                <input type="hidden" id="rating" name="rating" value="0" required>
+
+                <button type="button" onclick="addReview()">Submit Review</button>
+            </form>
+        </div>
+
+        <!-- Search Form -->
+        <div class="search-form">
+            <h2>Search Reviews</h2>
+            <form id="searchForm">
+                <label for="searchCompany">Search by Company Name:</label>
+                <input type="text" id="searchCompany" name="searchCompany" required>
+
+                <button type="button" onclick="searchReviews()">Search</button>
+            </form>
+        </div>
     </div>
 
-    <div>
-      <label for="pros">Pros of the Company:</label>
-      <textarea id="pros" name="pros" required></textarea>
-    </div>
-
-    <div>
-      <label for="cons">Cons of the Company:</label>
-      <textarea id="cons" name="cons" required></textarea>
-    </div>
-
-    <div>
-      <label for="rating">Rating:</label>
-      <div class="rating" id="rating">
-        <span class="star" data-value="1">&#9733;</span>
-        <span class="star" data-value="2">&#9733;</span>
-        <span class="star" data-value="3">&#9733;</span>
-        <span class="star" data-value="4">&#9733;</span>
-        <span class="star" data-value="5">&#9733;</span>
-      </div>
-    </div>
-
-    <div>
-      <button type="submit">Submit</button>
-    </div>
-  </form>
-
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      const stars = document.querySelectorAll('.star');
-
-      stars.forEach(star => {
-        star.addEventListener('click', () => {
-          const value = star.getAttribute('data-value');
-          document.getElementById('rating').setAttribute('data-rating', value);
-
-          stars.forEach(innerStar => {
-            innerStar.classList.remove('active');
-          });
-
-          for (let i = 0; i < value; i++) {
-            stars[i].classList.add('active');
-          }
-        });
-      });
-    });
-  </script>
-
+    <script src="/script.js"></script>
 </body>
 </html>

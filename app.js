@@ -1,16 +1,26 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 const path = require('path');
-const indexRoute = require('./routes/index');
+const { addReview } = require('./controllers/reviewController');
+const { searchReviews } = require('./controllers/searchController');
 
 const app = express();
 const port = 3000;
 
-// Serve static files from the 'public' directory
+// Middleware
+app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Use the index route for the root URL
-app.use('/', indexRoute);
+// Routes
+app.post('/addReview', addReview);
+app.get('/getReviews/:companyName', searchReviews);
 
+// Serve HTML file
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'index.html'));
+});
+
+// Start server
 app.listen(port, () => {
-  console.log(`Server is running at http://localhost:${port}`);
+    console.log(`Server is running on http://localhost:${port}`);
 });
